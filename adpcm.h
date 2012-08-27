@@ -10,10 +10,10 @@
 typedef unsigned char UCHAR;
 typedef unsigned short WORD;
 ////////////////////////////
-#define HW2_RECORD      0
-#define HW2_PLAYBACK    1
-#define HW2_MONO        1
-#define HW2_STEREO      2
+#define OPT_RECORD      0
+#define OPT_PLAYBACK    1
+#define OPT_MONO        1
+#define OPT_STEREO      2
 ////////////////////////////
 typedef union _b
 {

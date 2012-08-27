@@ -1,6 +1,6 @@
 /*
  * tcsip.cpp
- * The main entry point for the HW5 program.
+ * The program entry (main) file.
  * The core of the SIP engine is implemented here. 
  * This file uses the CUdpSock and adpcm classes (implemented 
  * in other files) to effect encoding communication etc.
@@ -94,13 +94,13 @@ int AudioInitialize()
     //printf("Set format to AFMT_U16_LE\n");
 
     //Set the number of channels
-    int channels = HW2_MONO;
+    int channels = OPT_MONO;
     if (ioctl(audio_fd, SNDCTL_DSP_CHANNELS, &channels)==-1)
     { 
         printf("Error at SNDCTL_DSP_CHANNELS\n");  
         return -1;
     }
-    if (channels != HW2_MONO)
+    if (channels != OPT_MONO)
     { 
         printf("Cannot set channels\n");  
         return -1;

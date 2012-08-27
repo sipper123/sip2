@@ -76,12 +76,12 @@ Simple SIP Implementation (Ver 2.0)
 
 ## Problems : 
      After moving the audio session to the second thread, the voice clarity has been 
-     nice with no static. This is a huge improvement over the first version of HW 5.
+     nice with no static. This is a huge improvement over the first version of the 
+     program.
 
 ## Comments :
 
-   - Please make sure you are testing the second version of HW 5.
    - Please make sure that the sound recoder is configured in the Linux PC where you are 
-     running the program in record mode. Thanks.
+     running the program in record mode.
    - Also, if you want to use different port numbers please modify the port 
      number (#define in the tcsip.cpp)
