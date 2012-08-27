@@ -1,0 +1,87 @@
+Simple SIP Implementation (Ver 2.0)
+===============================================
+   - tcsip.cpp 	
+      The main entrypoint for the code. This configures the device, creates
+      instances of the ADPCM and CMysocket classes. The main function goes
+      into a loop and checks the different file descriptors using select()
+      function call. Depending on the state the program is in (i.e., RTP
+      transmission started or not), the number of descriptors waited on
+      by select() vary. 
+      This file also implements the state diagrams for user-input and 
+      packet reception from the network.
+
+   - tcsip.h
+      This defines the various dta structures used in the program. The comments
+      provided in the header file is detailed.
+
+   - adpcm.cpp adpcm.h         
+      This implements the ADPCM class. The class object can be initialized
+      as either encoder or decoder, and be used for the corresponding action.
+
+   - CUdpSock.cpp CUdpSock.h
+      These implement the Socket interface for data communication. This is a
+      UDP based interface, with provisions to add reliability on top of it.
+
+   - helper.cpp
+      This file implements a number of miscellaneous function that are 
+      used at various places in the code. See the comments provided for
+      each function.
+
+   - README
+      What you are reading now :)
+
+## Compile and run info. : 
+   - compile command
+     g++ adpcm.cpp CUdpSock.cpp helper.cpp tcsip.cpp -lpthread -o simplesip
+
+   - run command
+     ./simplesip
+
+
+## Description of scheme : 
+     Continuing with the previous assignments, we followed our modular approach
+     in this assignment also. We re-used the adpcm and CUdpSock classes from the
+     previous assignments. This is a multi threaded program. The SIP session happens
+     in a single thread.. and whenever the audio session is to be started, 
+     an audio thread is spawned to do the audio reception.
+
+     Inside this large loop we wait on 2  file descriptors depending on the 
+     program state. If the media transmission has started, the program does a
+     select() wait on the audio-file-descriptor and RTP-socket in a second thread.
+     If the media transfer has not started, then the program waits only on the
+     stdin and SIP sockets in the main thread.
+
+     I used two global variables to control the state of the program. 
+     g_sip_mode: this carries the information whether the program is server or 
+                 client or neither
+     g_sip_state: this carries the state of the client or server. the four states
+                  I use are idle, connection_pending, connected, disconnect_pending
+
+     The program starts in 'none' mode and idle state. Depending on whether the
+     user types in a valid invite or a remote host sends a valid INVITE message
+     the program will turn into a server or client. From this point the communication
+     proceeds as the state-transition diagram dictates.
+
+     We provided a reasonably interactive shell kind of an interface for using this
+     program. Although this is not super-cool, this does take care of all the 
+     requirements of the assignment.
+     
+## Running scenarios and result captures :
+     Since the RTP, RTCP, and SIP port numbers are fixed in the program (as per the 
+     homework question), all that one needs to do is to run the program without
+     any command-line arguments.
+
+     When the interactive shell comes up, the user can enter "help" or one of the
+     available options. 
+
+## Problems : 
+     After moving the audio session to the second thread, the voice clarity has been 
+     nice with no static. This is a huge improvement over the first version of HW 5.
+
+## Comments :
+
+   - Please make sure you are testing the second version of HW 5.
+   - Please make sure that the sound recoder is configured in the Linux PC where you are 
+     running the program in record mode. Thanks.
+   - Also, if you want to use different port numbers please modify the port 
+     number (#define in the tcsip.cpp)
