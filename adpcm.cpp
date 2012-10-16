@@ -186,36 +186,40 @@ int ADPCM::Encode(UCHAR* buffer, int * psize)
     int    sign        = 1;
 
     WORD   PreviousSample = m_firstWord;
-    UCHAR  EncodedByte = 0x0;                              //this gets inserted to adpcm buffer              
+    UCHAR  EncodedByte = 0x0;                          //this gets inserted to adpcm buffer              
 
     for (int i=0;i<m_pcmBufferLength/2;i++)  
     {
       wCurr       = (WORD)(m_pcmBytes[2*i+1]);
       wCurr       = (0x00FF&m_pcmBytes[2*i])|(wCurr<<8); 
-      lDelta      = wCurr - PreviousSample;              //read signed diff in lDelta
-      sign        = (lDelta<0)?(-1):(1); //YYY
+      lDelta      = wCurr - PreviousSample;            //read signed diff in lDelta
+      sign        = (lDelta<0)?(-1):(1);               //YYY
 
       wDelta      = (WORD)abs(lDelta);
       wStep       = LookupStepsize(m_table2Index);
 
-      wQuantVal   = QTLookup(wDelta, wStep);               //This goes into the output
+      wQuantVal   = QTLookup(wDelta, wStep);           //This goes into the output
       fMultiplier = QTLookup(wQuantVal);
       indexAdj    = LookupIndexAdjustment(wQuantVal);
  
-      m_table2Index    = m_table2Index + indexAdj;
-      m_table2Index    = (m_table2Index<0)?0:m_table2Index;         //index for next iteration
-      PreviousSample   = (WORD)(0.5+ PreviousSample + sign*wStep*fMultiplier);//decoded data for next iteration  XXX change delta to step; add 0.5 
-                                                        // ^ YYY
+      m_table2Index = m_table2Index + indexAdj;
+      m_table2Index = (m_table2Index<0) ? 
+                        0 : m_table2Index;             //index for next iteration
+      PreviousSample = (WORD)
+                       (0.5+ PreviousSample + 
+                        sign*wStep*fMultiplier);       //decoded data for next iteration  
+                                                       //XXX change delta to step; add 0.5 
+                                                       // ^ YYY
       wQuantVal   = (sign==-1)?(wQuantVal|0x8):wQuantVal; //set 4th bit to 1 if negative delta
 
       if (i%2==0)
-      {                                                    // If it is even byte, then cook up the 
-         EncodedByte = wQuantVal<<4;                       // upper nibble
+      {                                                // If it is even byte, then cook up the 
+         EncodedByte = wQuantVal<<4;                   // upper nibble
       }
       else
-      {                                                    // If odd byte, then append the lower 
-         EncodedByte = EncodedByte | wQuantVal;            // nibble and set the new byte in the 
-         m_adpcmBytes[i/2] = EncodedByte;                  // adpcm buffer 
+      {                                                // If odd byte, then append the lower 
+         EncodedByte = EncodedByte | wQuantVal;        // nibble and set the new byte in the 
+         m_adpcmBytes[i/2] = EncodedByte;              // adpcm buffer 
          EncodedByte = 0x0;
       }
     }
