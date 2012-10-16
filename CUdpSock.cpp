@@ -40,7 +40,8 @@ int CUdpSock::Initialize(int local_port)
   m_my_sa.sin_family      = AF_INET;
   m_my_sa.sin_port        = htons(local_port);
   m_my_sa.sin_addr.s_addr = INADDR_ANY;
-  if (-1 == bind(m_socket,  (struct sockaddr *)&m_my_sa, sizeof(struct sockaddr_in)))
+  if (-1 == bind(m_socket, 
+                 (struct sockaddr *)&m_my_sa, sizeof(struct sockaddr_in)))
   {
     printf("Error at bind\n");
     return -1;
@@ -130,7 +131,8 @@ int CUdpSock::Initialize(char* remote_host, int remote_port, int local_port)
   m_my_sa.sin_family      = AF_INET;
   m_my_sa.sin_port        = htons(local_port);
   m_my_sa.sin_addr.s_addr = INADDR_ANY;
-  if (-1 == bind(m_socket,  (struct sockaddr *)&m_my_sa, sizeof(struct sockaddr_in)))
+  if (-1 == bind(m_socket,
+                 (struct sockaddr *)&m_my_sa, sizeof(struct sockaddr_in)))
   {
     printf("Error at bind\n");
     return -1;
