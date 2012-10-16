@@ -82,11 +82,14 @@ bool InsertRandomDelayLoss()
   *  if x is 2, 3  => delay (2->4ms, 3->6ms)
   *  if x is 7,8,9 => loss
   */
-      if (x==2) usleep(4000);
- else if (x==3) usleep(6000);
- else if (x==7 || x==9 ) return true;
-
- return false;
+  if (x==2) {
+    usleep(4000);
+  } else if (x==3) {
+    usleep(6000);
+  } else if (x==7 || x==9 ) {
+    return true;
+  }
+  return false;
 }
 
 ////////////////////////////////////////////////////////
