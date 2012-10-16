@@ -72,9 +72,9 @@ void  CreateRTPBuffer(UCHAR* RTP_buffer, int* RTP_len, UCHAR* encoded_buffer, in
 void  InitHeaderData();
 DWORD gettime(void);
 WORD  IncrementSeq();
-void generateUniqueID(void);
-void dump_state();
-int getmaxfd(int a, int b, int c);
+void  generateUniqueID(void);
+void  dump_state();
+int   getmaxfd(int a, int b, int c);
 
 
 /* RTP */
