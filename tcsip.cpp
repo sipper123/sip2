@@ -19,7 +19,7 @@ SDATA           g_SessionData;
 RTPFIXEDHEADER  g_RTP_header;
 
 /* states */
-bool      g_sip_done          = false;      
+bool g_sip_done          = false;      
 
 /* thread for audio session */
 bool      g_au_thread_running = false;
@@ -534,7 +534,12 @@ int ProcessUserCommand(char* command, char* result)
   cmdType = GetCommandType(command, msgExtra);
   if (cmdType < 0)
   {
-    strcpy(result,"Please use one of the following commands:\n       invite user@host  : To initiate a session with host\n       accept            : To accept a request from remote host\n       reject            : To reject a request from remote host\n       bye               : To terminate an open session\n       exit              : To terminate the program\n");
+    strcpy(result,"Please use one of the following commands:\n"
+                  "       invite user@host  : To initiate a session with host\n"
+                  "       accept            : To accept a request from remote host\n"
+                  "       reject            : To reject a request from remote host\n"
+                  "       bye               : To terminate an open session\n"
+                  "       exit              : To terminate the program\n");
     return -1;
   }
 
